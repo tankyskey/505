@@ -22,24 +22,29 @@ public class Ant{
 		Road path = null;
 
 		for(Road r : pos.getRoads()){
-			if(!roads.contains(r)){
-				bottom += (double)r.getPoids()*1.0/r.getDistance();
+			if(!visited.contains(r.getDestination(pos))){		// on elimine les chemins menant aux villes deja visité.
+				bottom += r.getPoids()*(1.0/r.getDistance());	// on calcule le diviseur
 			}
 		}
 
 		for(Road r: pos.getRoads()){
-			double top = r.getPoids()*1.0/r.getDistance();
-			probaPred += top/bottom;
+			if(!visited.contains(r.getDestination(pos))){
+				double top = r.getPoids()*(1.0/r.getDistance());// on calcule le denominateur
+				probaPred += top/bottom;						// on calcule la probabilité d'aller dans cette ville.
 
-			if(choix < probaPred){
-				path = r;
-				break;
+				if(choix < probaPred){
+					System.out.println("from ["+pos+"] to [" +r.getDestination(pos)+"]");
+					path = r;
+					break;
+				}
 			}
 		}
 
-		lk += path.getDistance();
-		pos = path.getDestination(pos);
-		roads.add(path);
+		if(path != null){
+			lk += path.getDistance();
+			pos = path.getDestination(pos);
+			roads.add(path);
+		}
 	}
 
 	public void dropPhem(){
@@ -53,8 +58,32 @@ public class Ant{
 	}
 
 	public static void patrouille(){
+		System.out.println(ants.size());
 		for(Ant a: ants){
+			System.out.println("moving out!"+a);
 			a.move();
 		}
+	}
+
+	public void setLk(double lk){
+		this.lk = lk;
+	}
+
+	public static void resetAnt(){
+		Ant bestAnt = ants.get(0);
+		for(Ant a: ants){
+			System.out.println("lk: "+a.lk);
+			if(a.lk <= bestAnt.lk){
+				bestAnt = a;
+				Road.set_shortestPath(new ArrayList<Road>(bestAnt.roads));
+			}
+			a.visited.clear();
+			a.roads.clear();
+			a.setLk(0);
+		}
+	}
+
+	public String toString(){
+		return pos.toString();
 	}
 }

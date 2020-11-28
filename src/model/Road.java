@@ -6,6 +6,7 @@ public class Road{
 	private City a, b;
 	private double distance, poids;
 	private static ArrayList<Road> roads = new ArrayList<Road>();
+	private static ArrayList<Road> shortestPath = new ArrayList<Road>();
 
 	public Road(City a, City b){
 		this.a = a;
@@ -57,4 +58,23 @@ public class Road{
 		C=n;
 	}
 
+	public boolean isSmaller(Road r){
+		return distance < r.distance;
+	}
+
+	public static ArrayList<Road> get_shortestPath(){
+		return shortestPath;
+	}
+
+	public static void set_shortestPath(ArrayList<Road> shortestPath){
+		Road.shortestPath = shortestPath;
+	}
+
+	public static ArrayList<Road> get_roads(){
+		return roads;
+	}
+
+	public String toString(){
+		return "form ["+a.toString()+"] to ["+b.toString()+"]";
+	}
 }

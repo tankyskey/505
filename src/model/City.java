@@ -4,6 +4,7 @@ import java.lang.Math;
 
 public class City{
 	private int x, y;
+	private static int nbCities;
 	private static ArrayList<City> map = new ArrayList<City>();
 	private ArrayList<Road> roads;
 
@@ -35,12 +36,22 @@ public class City{
 		return roads;
 	}
 
+	public static int get_nbCities(){
+		return nbCities;
+	}
+
 	public static void createMap(int nbNode){
+		nbCities = nbNode;
+		System.out.println("creating city...");
 		for(; nbNode > 0; nbNode--){
 			City n = new City();
+			new Ant(n);
 			n.link();
 			map.add(n);
+			System.out.println(n);
 		}
+		System.out.println("================");
+
 	}
 
 	public static ArrayList<City> getMap(){
@@ -48,12 +59,12 @@ public class City{
 	}
 
 	public String toString(){
-		return "x: "+String.valueOf(x)+" - y: "+ String.valueOf(y)+"\n";
+		return String.valueOf(x)+"; "+ String.valueOf(y);
 	}
 
-	public static void fill(){
-		for(City c: map){
-			new Ant(c);
-		}
+	public boolean equals(City c){
+		if(c == this)
+			return true;
+		return (c.x == x && c.y ==y);
 	}
 }

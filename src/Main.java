@@ -21,9 +21,21 @@ public class Main{
 	}
 
 	public static void simulation(){
-		City.createMap(10);
-		City.fill();
-		for(City c: City.getMap())
-			Ant.patrouille();
+		City.createMap(5);
+		for(City a: City.getMap()){
+			for(int i=1; i<City.get_nbCities(); i++){
+				System.out.println("patrouille");
+				Ant.patrouille();
+			}
+			System.out.println("=========[reset]=========");
+			Ant.resetAnt();
+			System.out.println("");
+		}
+
+		System.out.println("----");
+		for(Road r: Road.get_shortestPath()){
+			System.out.println(r);
+		}
+
 	}
 }
