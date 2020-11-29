@@ -52,7 +52,7 @@ public class Ant{
 			r.augmentePoids(lk);
 		}
 	}
-
+	
 	public City getPos(){
 		return pos;
 	}
@@ -77,6 +77,7 @@ public class Ant{
 				bestAnt = a;
 				Road.set_shortestPath(new ArrayList<Road>(bestAnt.roads));
 			}
+			a.dropPhem();
 			a.visited.clear();
 			a.roads.clear();
 			a.setLk(0);

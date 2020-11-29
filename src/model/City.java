@@ -15,7 +15,7 @@ public class City{
 	}
 
 	public City(){
-		this((int)(Math.random()*50.0), (int)(Math.random()*50.0));
+		this((int)(Math.random()*200.0), (int)(Math.random()*200.0));
 	}
 
 	public double distance(City b){
@@ -40,7 +40,17 @@ public class City{
 		return nbCities;
 	}
 
+	public int getX(){
+		return x;
+	}
+
+	public int getY(){
+		return y;
+	}
+
 	public static void createMap(int nbNode){
+		map.clear();
+		Road.get_roads().clear();
 		nbCities = nbNode;
 		System.out.println("creating city...");
 		for(; nbNode > 0; nbNode--){
@@ -51,7 +61,6 @@ public class City{
 			System.out.println(n);
 		}
 		System.out.println("================");
-
 	}
 
 	public static ArrayList<City> getMap(){

@@ -1,10 +1,11 @@
 package model;
 import java.util.ArrayList;
+import java.util.Observable;
 
-public class Road{
+public class Road extends Observable{
 	private static double Q=1, A=1, B=1, C=.7;
 	private City a, b;
-	private double distance, poids;
+	private double distance, poids, tp;
 	private static ArrayList<Road> roads = new ArrayList<Road>();
 	private static ArrayList<Road> shortestPath = new ArrayList<Road>();
 
@@ -12,6 +13,7 @@ public class Road{
 		this.a = a;
 		this.b = b;
 		poids = 1;
+		tp = 0;
 		distance = a.distance(b);
 		roads.add(this);
 		a.addRoad(this);
@@ -19,7 +21,20 @@ public class Road{
 	}
 
 	public void augmentePoids(double lk){
-		poids += (1-C)*Q/lk;
+		if(lk > 0)
+			tp += Q/lk;
+	}
+
+	public void update(){
+		System.out.println("tp: "+String.valueOf(tp));
+		poids = C*poids + tp;
+		this.setChanged();
+		this.notifyObservers();
+	}
+
+	public static void updateRoads(){
+		for(Road r: roads)
+			r.update();
 	}
 
 	public double getPoids(){
@@ -40,6 +55,14 @@ public class Road{
 		else{
 			return null;
 		}
+	}
+
+	public City getA(){
+		return a;
+	}
+
+	public City getB(){
+		return b;
 	}
 
 	public static void setQ(double n){
@@ -76,5 +99,18 @@ public class Road{
 
 	public String toString(){
 		return "form ["+a.toString()+"] to ["+b.toString()+"]";
+	}
+
+	public static void clearRoads(){
+		for(Road r: roads){
+			r.clear();
+		}
+	}
+
+	public void clear(){
+		tp = 0;
+		poids = 1;
+		this.setChanged();
+		this.notifyObservers();
 	}
 }
