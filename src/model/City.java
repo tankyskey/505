@@ -17,6 +17,11 @@ public class City{
 	public City(){
 		this((int)(Math.random()*200.0), (int)(Math.random()*200.0));
 	}
+	
+	public void setCoordonnee() {
+		this.x = (int)(Math.random()*50.0);
+		this.y = (int)(Math.random()*50.0);
+	}
 
 	public double distance(City b){
 		return Math.hypot((b.x-this.x), (b.y-this.y));
@@ -53,14 +58,29 @@ public class City{
 		Road.get_roads().clear();
 		nbCities = nbNode;
 		System.out.println("creating city...");
+	
 		for(; nbNode > 0; nbNode--){
+			
+			
 			City n = new City();
+			while (estMemeCoordonee(n) == true) {
+				n.setCoordonnee();
+			}
 			new Ant(n);
 			n.link();
 			map.add(n);
 			System.out.println(n);
 		}
 		System.out.println("================");
+	}
+	
+	public static boolean estMemeCoordonee(City c) {
+		for(int i = 0; i < map.size(); i++) {
+			if (c.equals(map.get(i))){
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public static ArrayList<City> getMap(){
