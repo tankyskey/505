@@ -1,3 +1,8 @@
+/*
+ * EL OUALI
+ * TAFANEL
+ */
+
 package view;
 
 import java.util.ArrayList;
@@ -10,11 +15,14 @@ public class MainView extends JFrame{
 	private int LARGEUR, HAUTEUR;
 	private ArrayList<City> cities;
 	private ArrayList<Road> roads;
+	private Color bckg_cl, font_cl;
 
-	public MainView(ArrayList<Road> roads, ArrayList<City> cities, int LARGEUR, int HAUTEUR){
+	public MainView(int LARGEUR, int HAUTEUR){
 		super();
-		this.cities = cities;
-		this.roads = roads;
+		this.cities = City.getMap();
+		this.roads = Road.get_roads();
+		this.bckg_cl = Palette.black;
+		this.font_cl = Palette.green;
 
 		create_IHM();
 		this.setVisible(true);
@@ -22,8 +30,8 @@ public class MainView extends JFrame{
 		this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 	}
 
-	public MainView(ArrayList<Road> roads, ArrayList<City> cities){
-		this(roads, cities, 500, 500);
+	public MainView(){
+		this(500, 500);
 	}
 
 	public void create_IHM(){
@@ -32,12 +40,12 @@ public class MainView extends JFrame{
 		JPanel c3=new JPanel();
 		JPanel c4=new JPanel();
 
-		JLabel l1=new JLabel("nombre de villes:");
-	   	JLabel l2=new JLabel("nombre de fourmis:");
-	   	JLabel l3=new JLabel("A:");
-	   	JLabel l4=new JLabel("B:");
-	   	JLabel l5=new JLabel("C:");
-	   	JLabel l6=new JLabel("Q:");
+		JLabel l1=new JLabel("nombre de villes:");	l1.setForeground(font_cl);
+	   	JLabel l2=new JLabel("nombre de fourmis:");	l2.setForeground(font_cl);
+	   	JLabel l3=new JLabel("A:");	l3.setForeground(font_cl);
+	   	JLabel l4=new JLabel("B:");	l4.setForeground(font_cl);
+	   	JLabel l5=new JLabel("C:");	l5.setForeground(font_cl);
+	   	JLabel l6=new JLabel("Q:");	l6.setForeground(font_cl);
 
 		JTextField f1=new JTextField("4"); // nbVilles
 		JTextField f2=new JTextField("4"); // nbFourmis
@@ -100,8 +108,9 @@ public class MainView extends JFrame{
 			}
 		});
 
-		c2.setBackground(Color.GRAY);
-		c4.setBackground(Color.GRAY);
+		c2.setBackground(bckg_cl);
+		c4.setBackground(bckg_cl);
+		drawMap.setBackground(bckg_cl);
 
 		c3.setLayout(new BoxLayout(c3, BoxLayout.PAGE_AXIS));
 		c3.add(l1); c3.add(f1);

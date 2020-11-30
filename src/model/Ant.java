@@ -1,3 +1,8 @@
+/*
+ * EL OUALI
+ * TAFANEL
+*/
+
 package model;
 import java.util.ArrayList;
 import java.lang.Math;
@@ -11,17 +16,17 @@ public class Ant{
 	private ArrayList<Road> roads;// Chemins empreinté
 	private static ArrayList<Ant> ants = new ArrayList<Ant>();
 
+	// constructeurs
 	public Ant(City c){
 		this.pos = c;
 		visited = new ArrayList<City>();
 		roads = new ArrayList<Road>();
-		ants.add(this);
 	}
 
+	// methodes
 	public void move(){
-		visited.add(pos);
 		double choix = Math.random();
-		double bottom = 0, probaPred = 0;
+		double bottom = 0, sum = 0;
 		Road path = null;
 
 		for(Road r : pos.getRoads()){
@@ -30,27 +35,21 @@ public class Ant{
 			}
 		}
 
-		TreeMap<Double, Road> candidats = new TreeMap<Double, Road>();
 		for(Road r: pos.getRoads()){
 			if(!visited.contains(r.getDestination(pos))){
 				double top = Math.pow(r.getPoids(), Road.A)*Math.pow((1.0/r.getDistance()), Road.B);// on calcule le denominateur
-				candidats.put(top/bottom, r);
-			}
-		}
-		for(Double k: candidats.keySet()){
-			path = candidats.get(k);
-			probaPred += k;
-
-			if(probaPred >= choix){
-				break;
+				sum += top/bottom;
+				if(sum >= choix){
+					path = r;
+					break;
+				}
 			}
 		}
 
-		if(path != null){
-			lk += path.getDistance();
-			pos = path.getDestination(pos);
-			roads.add(path);
-		}
+		lk += path.getDistance();
+		visited.add(pos);
+		pos = path.getDestination(pos);
+		roads.add(path);
 	}
 
 	public void dropPhem(){
@@ -58,17 +57,10 @@ public class Ant{
 			r.augmentePoids(lk);
 	}
 	
-	public City getPos(){
-		return pos;
-	}
-
 	public static void patrouille(){
-		for(Ant a: ants)
+		for(Ant a: ants){
 			a.move();
-	}
-
-	public void setLk(double lk){
-		this.lk = lk;
+		}
 	}
 
 	public static void resetAnt(){
@@ -85,8 +77,14 @@ public class Ant{
 		}
 	}
 
-	public String toString(){
-		return pos.toString();
+	// getters
+	public City getPos(){
+		return pos;
+	}
+
+	// setters
+	public void setLk(double lk){
+		this.lk = lk;
 	}
 
 	public void setPos(City c){
@@ -99,13 +97,6 @@ public class Ant{
 			int v_index = (int)(Math.random()*(double)(City.get_nbCities()-1));
 			City c = City.getMap().get(v_index);
 			ants.add(new Ant(c));
-		}
-	}
-
-	public static void repartion(){
-		for(Ant a: ants){
-			int v_index = (int)(Math.random()*(double)(City.get_nbCities()-1));
-			a.setPos(City.getMap().get(v_index));
 		}
 	}
 }

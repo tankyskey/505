@@ -1,3 +1,8 @@
+/*
+ * EL OUALI
+ * TAFANEL
+*/
+
 package model;
 import java.util.ArrayList;
 import java.lang.Math;
@@ -9,6 +14,7 @@ public class City{
 	private static ArrayList<City> map = new ArrayList<City>();
 	private ArrayList<Road> roads;
 
+	// constructeurs
 	public City(int x, int y){
 		this.x = x;
 		this.y = y;
@@ -18,12 +24,8 @@ public class City{
 	public City(){
 		this((int)(Math.random()*maxX), (int)(Math.random()*maxY));
 	}
-	
-	public void setCoordonnee() {
-		this.x = (int)(Math.random()*maxX);
-		this.y = (int)(Math.random()*maxY);
-	}
 
+	// methodes
 	public double distance(City b){
 		return ((Math.hypot((b.x-this.x), (b.y-this.y)))*100)/diag;
 	}
@@ -38,24 +40,14 @@ public class City{
 		roads.add(r);
 	}
 
-	public ArrayList<Road> getRoads(){
-		return roads;
+	public String toString(){
+		return String.valueOf(x)+"; "+ String.valueOf(y);
 	}
 
-	public static int get_nbCities(){
-		return nbCities;
-	}
-
-	public int getX(){
-		return x;
-	}
-
-	public int getY(){
-		return y;
-	}
-
-	public static double getDiag(){
-		return diag;
+	public boolean equals(City c){
+		if(c == this)
+			return true;
+		return (c.x == x && c.y ==y);
 	}
 
 	public static void createMap(int nbNode){
@@ -88,18 +80,35 @@ public class City{
 		return false;
 	}
 
+	// getters
+	public ArrayList<Road> getRoads(){
+		return roads;
+	}
+
+	public static int get_nbCities(){
+		return nbCities;
+	}
+
+	public int getX(){
+		return x;
+	}
+
+	public int getY(){
+		return y;
+	}
+
+	public static double getDiag(){
+		return diag;
+	}
+
 	public static ArrayList<City> getMap(){
 		return map;
 	}
-
-	public String toString(){
-		return String.valueOf(x)+"; "+ String.valueOf(y);
-	}
-
-	public boolean equals(City c){
-		if(c == this)
-			return true;
-		return (c.x == x && c.y ==y);
+	
+	// setters
+	public void setCoordonnee() {
+		this.x = (int)(Math.random()*maxX);
+		this.y = (int)(Math.random()*maxY);
 	}
 
 	public static void setDim(double x, double y){
