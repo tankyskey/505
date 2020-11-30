@@ -56,7 +56,7 @@ public class MainView extends JFrame{
 			// Clear
 			@Override
 			public void actionPerformed(ActionEvent e){
-				Road.clearRoads();
+				Road.resetRoads();
 				drawMap.repaint();
 			}
 		});
@@ -64,6 +64,7 @@ public class MainView extends JFrame{
 			// New Map
 			@Override
 			public void actionPerformed(ActionEvent e){
+				City.setDim(drawMap.getWidth(), drawMap.getHeight());
 				City.createMap(Integer.parseInt(f1.getText()));
 				drawMap.repaint();
 			}
@@ -72,26 +73,30 @@ public class MainView extends JFrame{
 			// Launch
 			@Override
 			public void actionPerformed(ActionEvent e){
-				Road.clearRoads();
-				Road.setA(Double.parseDouble(f3.getText()));
-				Road.setB(Double.parseDouble(f4.getText()));
-				Road.setC(Double.parseDouble(f5.getText()));
-				Road.setQ(Double.parseDouble(f6.getText()));
+				Road.resetRoads();
+				Ant.setAnts(Integer.parseInt(f2.getText()));
+				Road.A=Double.parseDouble(f3.getText());
+				Road.B=Double.parseDouble(f4.getText());
+				Road.C=Double.parseDouble(f5.getText());
+				Road.Q=Double.parseDouble(f6.getText());
 				drawMap.repaint();
 
-				int n = 500;
+				System.out.println("====] Simulation [====");
+				int n = 1000;
 				while((n--) != 0){
 					for(int i=1; i<City.get_nbCities(); i++){
 						Ant.patrouille();
 					}
 					Ant.resetAnt();
 					Road.updateRoads();
-					System.out.println("");
+					drawMap.repaint();
 				}
 
+				System.out.println("short path:");
 				for(Road r: Road.get_shortestPath()){
 					System.out.println(r);
 				}
+				System.out.println("====] Simulation [====");
 			}
 		});
 

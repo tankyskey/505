@@ -27,11 +27,11 @@ public class DrawAera extends Canvas implements Observer {
 			City a = r.getA();
 			City b = r.getB();
 			Color bkg = this.getBackground();
-			double poids = (r.getPoids()*1000-1000)*10;
+			double poids = (r.getPoids());
 			System.out.println(r.toString()+": "+poids);
 			if(poids>=255)
 				poids = 255;
-			if(poids < 0)
+			if(poids <= 20)
 				poids = 0;
 			g.setColor(new Color(255, 50, 50, (int)poids));
 			g.drawLine(a.getX(), a.getY(), b.getX(), b.getY());

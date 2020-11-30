@@ -3,11 +3,11 @@ import java.util.ArrayList;
 import java.util.Observable;
 
 public class Road extends Observable{
-	private static double Q=1, A=1, B=1, C=.7;
 	private City a, b;
 	private double distance, poids, tp;
 	private static ArrayList<Road> roads = new ArrayList<Road>();
 	private static ArrayList<Road> shortestPath = new ArrayList<Road>();
+	public static double Q=1, A=1, B=1, C=.7;
 
 	public Road(City a, City b){
 		this.a = a;
@@ -26,10 +26,7 @@ public class Road extends Observable{
 	}
 
 	public void update(){
-		System.out.println("tp: "+String.valueOf(tp));
-		poids = C*poids + tp;
-		this.setChanged();
-		this.notifyObservers();
+		poids = C*poids+tp;
 	}
 
 	public static void updateRoads(){
@@ -65,22 +62,6 @@ public class Road extends Observable{
 		return b;
 	}
 
-	public static void setQ(double n){
-		Q = n;
-	}
-
-	public static void setA(double n){
-		A = n;
-	}
-
-	public static void setB(double n){
-		B=n;
-	}
-
-	public static void setC(double n){
-		C=n;
-	}
-
 	public boolean isSmaller(Road r){
 		return distance < r.distance;
 	}
@@ -101,13 +82,13 @@ public class Road extends Observable{
 		return "form ["+a.toString()+"] to ["+b.toString()+"]";
 	}
 
-	public static void clearRoads(){
+	public static void resetRoads(){
 		for(Road r: roads){
-			r.clear();
+			r.reset();
 		}
 	}
 
-	public void clear(){
+	public void reset(){
 		tp = 0;
 		poids = 1;
 		this.setChanged();

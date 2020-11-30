@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import java.lang.Math;
 
 public class City{
+	private static double maxX=200, maxY=200, diag=Math.hypot(200, 200);
 	private int x, y;
 	private static int nbCities;
 	private static ArrayList<City> map = new ArrayList<City>();
@@ -15,16 +16,16 @@ public class City{
 	}
 
 	public City(){
-		this((int)(Math.random()*200.0), (int)(Math.random()*200.0));
+		this((int)(Math.random()*maxX), (int)(Math.random()*maxY));
 	}
 	
 	public void setCoordonnee() {
-		this.x = (int)(Math.random()*50.0);
-		this.y = (int)(Math.random()*50.0);
+		this.x = (int)(Math.random()*maxX);
+		this.y = (int)(Math.random()*maxY);
 	}
 
 	public double distance(City b){
-		return Math.hypot((b.x-this.x), (b.y-this.y));
+		return ((Math.hypot((b.x-this.x), (b.y-this.y)))*100)/diag;
 	}
 
 	public void link(){
@@ -53,6 +54,10 @@ public class City{
 		return y;
 	}
 
+	public static double getDiag(){
+		return diag;
+	}
+
 	public static void createMap(int nbNode){
 		map.clear();
 		Road.get_roads().clear();
@@ -66,7 +71,7 @@ public class City{
 			while (estMemeCoordonee(n) == true) {
 				n.setCoordonnee();
 			}
-			new Ant(n);
+//			new Ant(n);
 			n.link();
 			map.add(n);
 			System.out.println(n);
@@ -95,5 +100,11 @@ public class City{
 		if(c == this)
 			return true;
 		return (c.x == x && c.y ==y);
+	}
+
+	public static void setDim(double x, double y){
+		maxX=x;
+		maxY=y;
+		diag=Math.hypot(maxX, maxY);
 	}
 }
